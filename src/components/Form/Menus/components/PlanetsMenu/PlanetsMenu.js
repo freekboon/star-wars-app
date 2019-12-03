@@ -23,13 +23,15 @@ const mapResidentsToSpecies = allPlanets =>
   allPlanets.map(planet => {
     return {
       ...planet,
-      species:
-        planet.residents &&
-        planet.residents.map(resident => resident.species.id)
+      species: planet.residents.map(resident => {
+        return {
+          id: resident.species.map(species => species)
+        };
+      })
     };
   });
 
-export default () => {
+export default ({ filter, changeFilter, applyFilter }) => {
   const [planets, setPlanets] = useState([]);
 
   useEffect(() => {
@@ -37,5 +39,17 @@ export default () => {
       .then(data => mapResidentsToSpecies(data.allPlanets))
       .then(data => setPlanets(data));
   }, []);
-  return <DropdownMenu options={planets} />;
+
+  const filteredPlanets = planets.filter(
+    planet =>
+      applyFilter(filter.filmId, planet.films) &&
+      applyFilter(filter.speciesId, planet.species)
+  );
+
+  return (
+    <DropdownMenu
+      options={filteredPlanets}
+      handleSelect={id => changeFilter("planetId", id)}
+    />
+  );
 };

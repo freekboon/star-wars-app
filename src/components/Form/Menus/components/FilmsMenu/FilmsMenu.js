@@ -25,7 +25,7 @@ const setFilmNames = films =>
     };
   });
 
-export default () => {
+export default ({ filter, changeFilter, applyFilter }) => {
   const [films, setFilms] = useState([]);
 
   useEffect(() => {
@@ -33,5 +33,17 @@ export default () => {
       .then(data => setFilmNames(data.allFilms))
       .then(data => setFilms(data));
   }, []);
-  return <DropdownMenu options={films} />;
+
+  const filteredFilms = films.filter(
+    film =>
+      applyFilter(filter.speciesId, film.species) &&
+      applyFilter(filter.planetId, film.planets)
+  );
+
+  return (
+    <DropdownMenu
+      options={filteredFilms}
+      handleSelect={id => changeFilter("filmId", id)}
+    />
+  );
 };

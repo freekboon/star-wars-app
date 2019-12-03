@@ -1,4 +1,11 @@
 import React, { useState } from "react";
+import styled from "styled-components";
+
+const Select = styled.select`
+  width: 100%;
+`;
+
+Select.displayName = "Select";
 
 export default ({
   options,
@@ -13,14 +20,14 @@ export default ({
   };
   return (
     options && (
-      <select onChange={handleChange} value={value}>
+      <Select onChange={handleChange} value={value}>
         <option value="">{label}</option>
         {options.map(option => (
           <option key={option.id} value={option.id}>
             {option.name}
           </option>
         ))}
-      </select>
+      </Select>
     )
   );
 };

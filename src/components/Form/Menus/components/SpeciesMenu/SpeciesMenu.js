@@ -23,18 +23,31 @@ const mapHomeworldsToPlanets = allSpecies =>
   allSpecies.map(species => {
     return {
       ...species,
-      planets:
-        species.people && species.people.map(person => person.homeworld.id)
+      planets: species.people.map(person => person.homeworld)
     };
   });
 
-export default () => {
+export default ({ filter, changeFilter, applyFilter }) => {
   const [allSpecies, setAllSpecies] = useState([]);
 
   useEffect(() => {
     GraphService.fetchGraph(query)
       .then(data => mapHomeworldsToPlanets(data.allSpecies))
-      .then(data => setAllSpecies(data));
+      .then(data => {
+        setAllSpecies(data);
+      });
   }, []);
-  return <DropdownMenu options={allSpecies} />;
+
+  const filteredSpecies = allSpecies.filter(
+    species =>
+      applyFilter(filter.filmId, species.films) &&
+      applyFilter(filter.planetId, species.planets)
+  );
+
+  return (
+    <DropdownMenu
+      options={filteredSpecies}
+      handleSelect={id => changeFilter("speciesId", id)}
+    />
+  );
 };

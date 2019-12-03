@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
-import DropdownMenu from "./DropdownMenu";
+import DropdownMenu, { Select } from "./DropdownMenu";
+import "jest-styled-components";
 
 const data = [
   { id: 1, label: "first" },
@@ -62,7 +63,8 @@ describe("dropdown menu", () => {
       const wrapper = shallow(
         <DropdownMenu options={data} handleSelect={handleSelect} />
       );
-      wrapper.find("select").simulate("change", event);
+
+      wrapper.find("Select").simulate("change", event);
       expect(handleSelect).toHaveBeenCalledWith(1);
     });
   });

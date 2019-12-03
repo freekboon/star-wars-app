@@ -1,9 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
 import Menus from "./Menus";
+import { shallow } from "enzyme";
 
-it("renders without crashing", () => {
-  const div = document.createElement("div");
-  ReactDOM.render(<Menus />, div);
-  ReactDOM.unmountComponentAtNode(div);
+describe("menus component", () => {
+  it("should initiate a clear filter", () => {});
+  it("should handle changing the filter params", () => {});
 });
