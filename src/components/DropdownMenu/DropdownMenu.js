@@ -20,14 +20,17 @@ export default ({
   };
   return (
     options && (
-      <Select onChange={handleChange} value={value}>
-        <option value="">{label}</option>
-        {options.map(option => (
-          <option key={option.id} value={option.id}>
-            {option.name}
-          </option>
-        ))}
-      </Select>
+      <>
+        <h2>{label}</h2>
+        <Select onChange={handleChange} value={value}>
+          <option value="">{label}</option>
+          {options.map(option => (
+            <option key={option.id} value={option.id}>
+              {option.name}
+            </option>
+          ))}
+        </Select>
+      </>
     )
   );
 };

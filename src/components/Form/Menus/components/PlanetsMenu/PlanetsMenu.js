@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DropdownMenu from "../../../../DropdownMenu/DropdownMenu";
 import GraphService from "../../../../../services/GraphService/GraphService";
+import { useDispatch, useSelector } from "react-redux";
+import { addPlanetCharacters, setFilter } from "../../../../../actions/actions";
 
 const query = `
   {
@@ -11,6 +13,7 @@ const query = `
       id
     }
     residents {
+      name
       species {
         id
       }
@@ -25,14 +28,17 @@ const mapResidentsToSpecies = allPlanets =>
       ...planet,
       species: planet.residents.map(resident => {
         return {
-          id: resident.species.map(species => species)
+          ...resident,
+          species: resident.species.map(species => species)
         };
       })
     };
   });
 
-export default ({ filter, changeFilter, applyFilter }) => {
+export default ({ applyFilter }) => {
   const [planets, setPlanets] = useState([]);
+  const filter = useSelector(state => state.filter);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     GraphService.fetchGraph(query)
@@ -40,16 +46,23 @@ export default ({ filter, changeFilter, applyFilter }) => {
       .then(data => setPlanets(data));
   }, []);
 
+  const handleSetFilter = id => {
+    dispatch(setFilter({ category: "planetId", id }));
+    const selectedPlanet = planets.find(planet => planet.id === id);
+    dispatch(addPlanetCharacters(selectedPlanet.residents));
+  };
+
   const filteredPlanets = planets.filter(
-    planet =>
-      applyFilter(filter.filmId, planet.films) &&
-      applyFilter(filter.speciesId, planet.species)
+    planet => applyFilter(filter.filmId, planet.films)
+    // &&
+    // applyFilter(filter.speciesId, planet.species)
   );
 
   return (
     <DropdownMenu
       options={filteredPlanets}
-      handleSelect={id => changeFilter("planetId", id)}
+      label="Select planet"
+      handleSelect={id => handleSetFilter(id)}
     />
   );
 };

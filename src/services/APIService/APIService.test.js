@@ -1,10 +1,17 @@
 import APIService from "./APIService";
 
+let options = {};
+
 beforeEach(() => {
   const fetchMock = Promise.resolve({
     json: () => Promise.resolve({})
   });
   global.fetch = jest.fn().mockImplementation(() => fetchMock);
+  options = {
+    body: "{}",
+    headers: { "Content-Type": "application/json" },
+    method: "POST"
+  };
 });
 
 afterEach(() => {
@@ -15,6 +22,9 @@ afterEach(() => {
 describe("fetching data", () => {
   it("should fetch data", () => {
     APIService.fetchAPI();
-    expect(global.fetch).toHaveBeenCalledWith("https://swapi.co/api/people/");
+    expect(global.fetch).toHaveBeenCalledWith(
+      "http://localhost:3001/characters",
+      options
+    );
   });
 });

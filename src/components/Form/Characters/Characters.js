@@ -1,23 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Item } from "../../Grid/Grid";
 import APIService from "../../../services/APIService/APIService";
 import { useDispatch, useSelector } from "react-redux";
-import { addCharacters } from "../../../actions/actions";
 
-export default ({ characterIds }) => {
-  const characters = useSelector(state => state.characters);
+export default () => {
+  const { allCharacters } = useSelector(state => state.characters);
   const dispatch = useDispatch();
+  const [results, setResults] = useState([]);
 
   useEffect(() => {
-    APIService.fetchAPI().then(data => dispatch(addCharacters(data.results)));
-  }, [dispatch]);
+    const names = allCharacters.map(character => character.name);
+    APIService.fetchAPI(names).then(data => setResults(data));
+  }, [allCharacters, dispatch]);
   return (
-    <Container wrap="wrap">
-      {characters.map(character => (
-        <Item key={character.name} sm={2} md={3} lg={4} xl={5} px={1} my={1}>
-          {character.name}
-        </Item>
-      ))}
-    </Container>
+    allCharacters && (
+      <Container wrap="wrap">
+        {results.map(character => (
+          <Item key={character.name} sm={2} md={3} lg={4} xl={5} px={1} my={1}>
+            {character.name}
+          </Item>
+        ))}
+      </Container>
+    )
   );
 };
