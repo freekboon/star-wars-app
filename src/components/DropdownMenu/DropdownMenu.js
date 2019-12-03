@@ -3,6 +3,14 @@ import styled from "styled-components";
 
 const Select = styled.select`
   width: 100%;
+  font-size: 1rem;
+  padding: 0.4rem 0.8rem;
+  background: none;
+  border-radius: 1rem;
+  &:focus {
+    box-shadow: ${({ theme }) => theme.shadows.normal};
+    outline: none;
+  }
 `;
 
 Select.displayName = "Select";
