@@ -3,6 +3,7 @@ import { Container, Item } from "../../Grid/Grid";
 import APIService from "../../../services/APIService/APIService";
 import { useDispatch, useSelector } from "react-redux";
 import CharacterThumb from "./components/CharacterThumb/CharacterThumb";
+import WithLoadingScreen from "../../WithLoadingScreen/WithLoadingScreen";
 
 export default () => {
   const { allCharacters } = useSelector(state => state.characters);
@@ -20,15 +21,15 @@ export default () => {
     }
   }, [allCharacters, dispatch]);
 
-  return loading ? (
-    <div>Loading...</div>
-  ) : (
-    <Container wrap="wrap">
-      {results.map(character => (
-        <Item key={character.name} sm={2} md={3} lg={4} xl={5} px={1} my={1}>
-          <CharacterThumb character={character} />
-        </Item>
-      ))}
-    </Container>
+  return (
+    <WithLoadingScreen loading={loading}>
+      <Container wrap="wrap">
+        {results.map(character => (
+          <Item key={character.name} sm={2} md={3} lg={4} xl={5} px={1} my={1}>
+            <CharacterThumb character={character} />
+          </Item>
+        ))}
+      </Container>
+    </WithLoadingScreen>
   );
 };
