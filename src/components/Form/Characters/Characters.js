@@ -10,11 +10,11 @@ export default ({ characterIds }) => {
 
   useEffect(() => {
     APIService.fetchAPI().then(data => dispatch(addCharacters(data.results)));
-  }, []);
+  }, [dispatch]);
   return (
     <Container wrap="wrap">
       {characters.map(character => (
-        <Item key={character.id} sm={2} md={3} lg={4} xl={5} px={1} my={1}>
+        <Item key={character.name} sm={2} md={3} lg={4} xl={5} px={1} my={1}>
           {character.name}
         </Item>
       ))}

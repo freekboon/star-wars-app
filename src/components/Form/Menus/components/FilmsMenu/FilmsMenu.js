@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import DropdownMenu from "../../../../DropdownMenu/DropdownMenu";
 import GraphService from "../../../../../services/GraphService/GraphService";
+import { useDispatch } from "react-redux";
+import { addCharacters } from "../../../../../actions/actions";
 
 const query = `
   {
   allFilms {
     title
     id
+    characters {
+      name
+    }
     species {
       id
     }
@@ -27,12 +32,16 @@ const setFilmNames = films =>
 
 export default ({ filter, changeFilter, applyFilter }) => {
   const [films, setFilms] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     GraphService.fetchGraph(query)
       .then(data => setFilmNames(data.allFilms))
-      .then(data => setFilms(data));
-  }, []);
+      .then(data => {
+        dispatch(addCharacters(data.characters));
+        setFilms(data);
+      });
+  }, [dispatch]);
 
   const filteredFilms = films.filter(
     film =>

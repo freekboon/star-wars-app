@@ -3,6 +3,10 @@ import { addCharacters } from "../actions/actions";
 
 let state;
 
+const character1 = { name: "Lala" };
+const character2 = { name: "Po" };
+const character3 = { name: "Tinky" };
+
 beforeEach(() => {
   state = [];
 });
@@ -12,9 +16,19 @@ describe("characters reducer", () => {
     expect(reducer(state, [])).toEqual([]);
   });
   it("should add character when not present in state", () => {
-    expect(reducer(state, addCharacters([1, 2, 3]))).toEqual([1, 2, 3]);
+    const payload = [character1, character2];
+    expect(reducer(state, addCharacters(payload))).toEqual(payload);
   });
   it("should not add character when present in state", () => {
-    expect(reducer([2], addCharacters([1, 2, 3]))).toEqual([2, 1, 3]);
+    const payload = [character1, character2];
+    expect(reducer([character1], addCharacters(payload))).toEqual([
+      character2,
+      character1
+    ]);
+  });
+  it("should remove a character when not present in payload", () => {
+    expect(
+      reducer([character1], addCharacters([character2, character3]))
+    ).toEqual([character2, character3]);
   });
 });
