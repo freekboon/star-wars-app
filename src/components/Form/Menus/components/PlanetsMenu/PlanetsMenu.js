@@ -22,28 +22,13 @@ const query = `
 }
 `;
 
-const mapResidentsToSpecies = allPlanets =>
-  allPlanets.map(planet => {
-    return {
-      ...planet,
-      species: planet.residents.map(resident => {
-        return {
-          ...resident,
-          species: resident.species.map(species => species)
-        };
-      })
-    };
-  });
-
 export default ({ applyFilter }) => {
   const [planets, setPlanets] = useState([]);
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    GraphService.fetchGraph(query)
-      .then(data => mapResidentsToSpecies(data.allPlanets))
-      .then(data => setPlanets(data));
+    GraphService.fetchGraph(query).then(data => setPlanets(data));
   }, []);
 
   const handleSetFilter = id => {
@@ -52,10 +37,8 @@ export default ({ applyFilter }) => {
     dispatch(addPlanetCharacters(selectedPlanet.residents));
   };
 
-  const filteredPlanets = planets.filter(
-    planet => applyFilter(filter.filmId, planet.films)
-    // &&
-    // applyFilter(filter.speciesId, planet.species)
+  const filteredPlanets = planets.filter(planet =>
+    applyFilter(filter.filmId, planet.films)
   );
 
   return (

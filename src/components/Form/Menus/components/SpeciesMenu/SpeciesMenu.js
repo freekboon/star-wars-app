@@ -25,25 +25,13 @@ const query = `
 }
 `;
 
-const mapHomeworldsToPlanets = allSpecies =>
-  allSpecies.map(species => {
-    return {
-      ...species,
-      planets: species.people.map(
-        person => person.homeworld && person.homeworld
-      )
-    };
-  });
-
 export default ({ applyFilter }) => {
   const [allSpecies, setAllSpecies] = useState([]);
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    GraphService.fetchGraph(query)
-      .then(data => mapHomeworldsToPlanets(data.allSpecies))
-      .then(data => setAllSpecies(data));
+    GraphService.fetchGraph(query).then(data => setAllSpecies(data));
   }, []);
 
   const handleSetFilter = id => {
@@ -52,10 +40,8 @@ export default ({ applyFilter }) => {
     dispatch(addSpeciesCharacters(selectedPlanet.people));
   };
 
-  const filteredSpecies = allSpecies.filter(
-    species => applyFilter(filter.filmId, species.films)
-    // &&
-    // applyFilter(filter.planetId, species.planets)
+  const filteredSpecies = allSpecies.filter(species =>
+    applyFilter(filter.filmId, species.films)
   );
 
   return (
