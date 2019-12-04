@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import DropdownMenu, { Select } from "./DropdownMenu";
+import DropdownMenu from "./DropdownMenu";
 import "jest-styled-components";
 
 const data = [
@@ -22,9 +22,7 @@ describe("dropdown menu", () => {
           .text()
       ).toContain("Select");
     });
-    it("should set an undefined value", () => {
-      const wrapper = shallow(<DropdownMenu options={data} />);
-    });
+    it("should set an undefined value", () => {});
   });
 
   describe("custom values", () => {
@@ -37,9 +35,7 @@ describe("dropdown menu", () => {
           .text()
       ).toContain("testing");
     });
-    it("should set a selected value", () => {
-      const wrapper = shallow(<DropdownMenu selected={1} options={data} />);
-    });
+    it("should set a selected value", () => {});
   });
 
   describe("loading the data", function() {

@@ -7,6 +7,7 @@ const Select = styled.select`
   padding: 0.4rem 0.8rem;
   background: none;
   border-radius: 1rem;
+  border: 1px solid black;
   &:focus {
     box-shadow: ${({ theme }) => theme.shadows.normal};
     outline: none;

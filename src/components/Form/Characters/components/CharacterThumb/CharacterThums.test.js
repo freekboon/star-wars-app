@@ -1,10 +1,10 @@
 import React from "react";
-import Characters from "./Characters";
+import CharacterThumb from "./CharacterThumb";
 import { shallow } from "enzyme";
 
-xdescribe("characters component", () => {
+xdescribe("character thumb component", () => {
   it("should render", () => {
-    const wrapper = shallow(<Characters />);
+    const wrapper = shallow(<CharacterThumb />);
     expect(wrapper.exists()).toBeTruthy();
   });
 });

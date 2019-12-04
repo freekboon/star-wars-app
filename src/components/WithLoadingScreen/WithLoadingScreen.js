@@ -16,6 +16,8 @@ const Loader = styled(Item)`
   text-align: center;
 `;
 
+Loader.displayName = "Loader";
+
 const Image = styled.img`
   width: 10rem;
   margin-bottom: 3rem;
