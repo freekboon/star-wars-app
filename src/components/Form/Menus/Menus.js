@@ -6,7 +6,7 @@ import { Container, Item } from "../../Grid/Grid";
 
 export default () => {
   const applyFilter = (id, list) =>
-    id ? list && list.find(item => item.id === id) : list;
+    id ? !!list.find(item => item.id === id) : list;
 
   return (
     <Container wrap="wrap">

@@ -1,12 +1,12 @@
 import { createAction } from "../utils/actionHelpers/actionHelpers";
 // Types
-export const ADD_FILM_CHARACTERS = "ADD_FILM_CHARACTERS";
-export const ADD_SPECIES_CHARACTERS = "ADD_SPECIES_CHARACTERS";
-export const ADD_PLANET_CHARACTERS = "ADD_PLANET_CHARACTERS";
-export const SET_FILTER = "SET_FILTER";
+export const SET_FILM_FILTER = "SET_FILM_FILTER";
+export const SET_SPECIES_FILTER = "SET_SPECIES_FILTER";
+export const SET_PLANET_FILTER = "SET_PLANET_FILTER";
+export const ADD_CHARACTERS = "ADD_CHARACTERS";
 
 // Actions
-export const addFilmCharacters = createAction(ADD_FILM_CHARACTERS);
-export const addSpeciesCharacters = createAction(ADD_SPECIES_CHARACTERS);
-export const addPlanetCharacters = createAction(ADD_PLANET_CHARACTERS);
-export const setFilter = createAction(SET_FILTER);
+export const setFilmFilter = createAction(SET_FILM_FILTER);
+export const setSpeciesFilter = createAction(SET_SPECIES_FILTER);
+export const setPlanetFilter = createAction(SET_PLANET_FILTER);
+export const addCharacters = createAction(ADD_CHARACTERS);

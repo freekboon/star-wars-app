@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import DropdownMenu from "../../../../DropdownMenu/DropdownMenu";
 import GraphService from "../../../../../services/GraphService/GraphService";
 import { useDispatch, useSelector } from "react-redux";
-import { addPlanetCharacters, setFilter } from "../../../../../actions/actions";
+import { addCharacters, setPlanetFilter } from "../../../../../actions/actions";
 
 const query = `
   {
@@ -12,9 +12,15 @@ const query = `
     films {
       id
     }
-    residents {
+    characters: residents {
       name
+      films {
+        id
+      }
       species {
+        id
+      }
+      planets: homeworld {
         id
       }
     }
@@ -28,13 +34,14 @@ export default ({ applyFilter }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    GraphService.fetchGraph(query).then(data => setPlanets(data));
+    GraphService.fetchGraph(query).then(data => setPlanets(data.allPlanets));
   }, []);
 
   const handleSetFilter = id => {
-    dispatch(setFilter({ category: "planetId", id }));
+    dispatch(setPlanetFilter(id));
     const selectedPlanet = planets.find(planet => planet.id === id);
-    dispatch(addPlanetCharacters(selectedPlanet.residents));
+    if (!filter.characters.length)
+      dispatch(addCharacters(selectedPlanet.characters));
   };
 
   const filteredPlanets = planets.filter(planet =>

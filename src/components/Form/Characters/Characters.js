@@ -6,20 +6,20 @@ import CharacterThumb from "./components/CharacterThumb/CharacterThumb";
 import WithLoadingScreen from "../../WithLoadingScreen/WithLoadingScreen";
 
 export default () => {
-  const { allCharacters } = useSelector(state => state.characters);
+  const { characters } = useSelector(state => state.filter);
   const dispatch = useDispatch();
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const names = allCharacters.map(character => character.name);
+    const names = characters.map(character => character.name);
     if (names.length) {
       setLoading(true);
       APIService.fetchAPI(names)
         .then(data => setResults(data))
         .then(() => setLoading(false));
     }
-  }, [allCharacters, dispatch]);
+  }, [characters, dispatch]);
 
   return (
     <WithLoadingScreen loading={loading}>

@@ -2,15 +2,24 @@ import React, { useEffect, useState } from "react";
 import DropdownMenu from "../../../../DropdownMenu/DropdownMenu";
 import GraphService from "../../../../../services/GraphService/GraphService";
 import { useDispatch, useSelector } from "react-redux";
-import { addFilmCharacters, setFilter } from "../../../../../actions/actions";
+import { addCharacters, setFilmFilter } from "../../../../../actions/actions";
 
 const query = `
   {
   allFilms {
-    title
+    name: title
     id
     characters {
       name
+      films {
+        id
+      }
+      species {
+        id
+      }
+      homeworld {
+        id
+      }
     }
     species {
       id
@@ -22,29 +31,20 @@ const query = `
 }
 `;
 
-const setFilmNames = films =>
-  films.map(film => {
-    return {
-      ...film,
-      name: film.title
-    };
-  });
-
 export default ({ applyFilter }) => {
   const [films, setFilms] = useState([]);
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    GraphService.fetchGraph(query)
-      .then(data => setFilmNames(data.allFilms))
-      .then(data => setFilms(data));
+    GraphService.fetchGraph(query).then(data => setFilms(data.allFilms));
   }, []);
 
   const handleSetFilter = id => {
-    dispatch(setFilter({ category: "filmId", id }));
+    dispatch(setFilmFilter(id));
     const selectedFilm = films.find(film => film.id === id);
-    dispatch(addFilmCharacters(selectedFilm.characters));
+    if (!filter.characters.length)
+      dispatch(addCharacters(selectedFilm.characters));
   };
 
   const filteredFilms = films.filter(
